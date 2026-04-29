@@ -172,4 +172,6 @@ input[data-active="false"] {
 
 [id$="message"] {
     padding: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 40px;
 }

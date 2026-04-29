@@ -154,7 +154,7 @@ function render() {
 
   messageEl.innerHTML =
     units > 0 && units < values.Sv * 100 + 1
-      ? `For a dosage of <b style="color: #3b82f6;">${values.D.toFixed(2)}</b> mcg, fill the syringe until <b style="color: #3b82f6;">${units.toFixed(2)}</b>`
+      ? `For a dosage of <b style="color: #3b82f6;">${values.D.toFixed(2)}</b> mcg, fill the syringe up to <b style="color: #3b82f6;">${units.toFixed(2)}</b>`
       : "Insufficient volume in syringe";
 
   for (const [groupKey, buttons] of Object.entries(groups)) {
