@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="Calctide" content="width=device-width, initial-scale=1">
+        <title>Calctide</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inika&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: 0;
+                font-family: 'Inika', serif;
+            }
+            body {
+                overflow-x: hidden;
+                display: grid;
+                grid-template-columns: 1fr 80% 1fr;
+            }
+            body > * {
+                grid-column: 2;
+            }
+
+            .Topbar {
+                height: 5vh;
+                display: flex;
+                flex-direction: row;
+                background-color: #009DEE;
+                position: sticky;
+                top: 0;
+                grid-column: 1 / -1;
+                z-index: 100;
+                justify-content: center;
+                align-items: center;
+            }
+
+
+
+            .Topbar img {width: 3.5vh;}
+            .Topbar p {font-size: 4vh; align-self: center ;color: aliceblue; font-style: italic;}
+
+
+        </style>
+    </head>
+
+    <body>
+
+            <div class="Topbar">
+                <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/flask3_tz3ra0.png" alt="">
+                <p>Calctide</p>
+            </div>
+
+
+
+
+
+            <script>
+                // js
+
+            </script>
+    </body>
+
+
+</html>
