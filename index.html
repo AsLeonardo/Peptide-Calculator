@@ -80,7 +80,7 @@
 
                 </div>
                 <div class="stackfire">
-                    <b id="message"> </b>
+                    <span id="message"> </span>
                 <div class="freebox">
                     <img id="blue" src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776311652/blue_rdvirf.png" alt="">
                     <img id="rulerImg" src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_30_kj7f3e.png" alt="ruler">
@@ -139,6 +139,8 @@
                     D: document.getElementById("DOtherInput"),
                 }
 
+                const blueImg = document.getElementById("blue")
+
                 const rulerImages = {
                     "0.3": "https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_30_kj7f3e.png",
                     "0.5": "https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_50_rl6hhy.png",
@@ -148,53 +150,54 @@
                 const messageEl = document.getElementById("message");
                 const rulerImg  = document.getElementById("rulerImg");
 
-function render() {
-  // inline computation
-  const units = (values.D / (values.M * 1000 / values.V)) * 100;
+                function render() {
+                // inline computation
+                const units = (values.D / (values.M * 1000 / values.V)) * 100;
 
-  messageEl.innerHTML =
-    units > 0 && units < values.Sv * 100 + 1
-      ? `For a dosage of <b style="color: #3b82f6;">${values.D.toFixed(2)}</b> mcg, fill the syringe up to <b style="color: #3b82f6;">${units.toFixed(2)}</b>`
-      : "Insufficient volume in syringe";
+                messageEl.innerHTML =
+                    units > 0 && units < values.Sv * 100 + 1
+                    ? `For a dosage of <b style="color: #3b82f6;">${Number(values.D.toFixed(2))}</b> mcg, fill the syringe up to <b style="color: #3b82f6;">${Number(units.toFixed(2))}</b> units`
+                    : "Insufficient volume in syringe";
 
-  for (const [groupKey, buttons] of Object.entries(groups)) {
-    for (const [value, el] of Object.entries(buttons)) {
-      el.dataset.active = selection[groupKey] === value;
-    }
-  }
-  for (const [groupKey, input] of Object.entries(otherInputs)) {
-    input.dataset.active = selection[groupKey] === "other";
-  }
+                blueImg.style.width = `${Number(units) / Number(values.Sv)}%`;
 
-  rulerImg.src = rulerImages[selection.Sv];
-}
+                for (const [groupKey, buttons] of Object.entries(groups)) {
+                    for (const [value, el] of Object.entries(buttons)) {
+                    el.dataset.active = selection[groupKey] === value;
+                    }
+                }
+                for (const [groupKey, input] of Object.entries(otherInputs)) {
+                    input.dataset.active = selection[groupKey] === "other";
+                }
 
-for (const [groupKey, buttons] of Object.entries(groups)) {
-  for (const [value, el] of Object.entries(buttons)) {
-    el.addEventListener("click", () => {
-      const wasOther = selection[groupKey] === "other";
-      selection[groupKey] = value;
-      if (value !== "other") {
-        values[groupKey] = parseFloat(value);
-      } else if (!wasOther) {
-        otherInputs[groupKey].value = values[groupKey];
-      }
-      render();
-    });
-  }
-}
+                rulerImg.src = rulerImages[selection.Sv];
+                }
 
-for (const [groupKey, input] of Object.entries(otherInputs)) {
-  input.addEventListener("input", () => {
-    const n = parseFloat(input.value);
-    if (!isNaN(n)) {
-      values[groupKey] = n;
-      render();
-    }
-  });
-}
+                for (const [groupKey, buttons] of Object.entries(groups)) {
+                for (const [value, el] of Object.entries(buttons)) {
+                    el.addEventListener("click", () => {
+                    const wasOther = selection[groupKey] === "other";
+                    selection[groupKey] = value;
+                    if (value !== "other") {
+                        values[groupKey] = parseFloat(value);
+                    } else if (!wasOther) {
+                        otherInputs[groupKey].value = values[groupKey];
+                    }
+                    render();
+                    });
+                }
+                }
 
-render();
+                for (const [groupKey, input] of Object.entries(otherInputs)) {
+                input.addEventListener("input", () => {
+                    const n = parseFloat(input.value);
+                    if (!isNaN(n)) {
+                    values[groupKey] = n;
+                    render();
+                    }
+                });
+                }
+                render();
             </script>
     </body>
 
