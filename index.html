@@ -44,7 +44,7 @@
                                                 <button id="M15" type="button" class="btn">15 mg</button>
                                                 <button id="MOther" type="button" class="btn">other</button>
                                         </div>
-                                        <input type="number" id="MOtherInput" step="any">
+                                        <input type="number" class="input" id="MOtherInput" step="any">
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                             <button id="V3" type="button" class="btn">3 ml</button>
                                             <button id="VOther" type="button" class="btn">other</button>
                                         </div>
-                                        <input type="number" id="VOtherInput" step="any">
+                                        <input type="number" class="input" id="VOtherInput" step="any">
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
                                         <button id="D1000" type="button" class="btn">1000 mcg</button>
                                         <button id="DOther" type="button" class="btn">other</button>
                                     </div>
-                                    <input type="number" id="DOtherInput" step="any">
+                                    <input type="number" class="input" id="DOtherInput" step="any">
                         </div>
                     </div>
 
@@ -128,6 +128,11 @@
                     "other": document.getElementById("DOther"),
                     },
                 };
+                const otherInputs = {
+                    M: document.getElementById("MOtherInput"),
+                    V: document.getElementById("VOtherInput"),
+                    D: document.getElementById("DOtherInput"),
+                }
 
                 function render() {
                     for (const [groupKey, buttons] of Object.entries(groups)) {
@@ -135,16 +140,34 @@
                             el.dataset.active = selection[groupKey] === value;
                         }
                     }
+                    for (const [groupKey, input] of Object.entries(otherInputs)) {
+                        input.dataset.active = selection[groupKey] === "other";
+                    }
                 }
 
                 for (const [groupKey, buttons] of Object.entries(groups)) {
                     for (const [value, el] of Object.entries(buttons)) {
                         el.addEventListener("click", () => {
+                            const wasOther = selection[groupKey] === "other";
                             selection[groupKey] = value;
-                            if (value !== "other") {values[groupKey] = parseFloat(value)}
+                            if (value !== "other") {
+                                values[groupKey] = parseFloat(value);
+                            } else if (!wasOther) {
+                                // Just switched TO other — prefill input with current value.
+                                otherInputs[groupKey].value = values[groupKey];
+                            }
                             render();
                         });
                     }
+                }
+
+                for (const [groupKey, input] of Object.entries(otherInputs)) {
+                    input.addEventListener("input", () => {
+                        const n = parseFloat(input.value);
+                        if (!isNaN(n)) {
+                            values[groupKey] = n;
+                        }
+                    });
                 }
 
                 render();
