@@ -59,7 +59,7 @@ input[data-active="false"] {
 [id$="MOtherInput"] {margin-right: 7.05vh;}
 [id$="VOtherInput"] {margin-right: 3.05vh;}
 
-
+[id$="MP"] {margin-right: 7vh;}
 
 .Topbar {
     height: 5vh;
@@ -133,4 +133,43 @@ input[data-active="false"] {
     height: 100%;
     max-width: 100%;
     max-height: 100%;
+}
+
+.stackfire {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vw;
+    padding: 2vw;
+
+}
+
+.freebox {
+    display: grid;
+    width: 90%;
+    aspect-ratio: 380/57;
+    margin: 1em;
+    box-shadow: 0px 4px 16px 0px #00000033
+}
+
+.freebox > * {
+    grid-area: 1 / 1;
+}
+
+[id$="blue"]{
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute 0 0;
+}
+
+[id$="rulerImg"]{
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute 0 0;
+}
+
+[id$="message"] {
+    padding: 10px;
 }

@@ -24,11 +24,11 @@
                         </div>
                         <div class="row">
                             <button id="Sv05" type="button" class="btn">0.5 ml</button>
-                            <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_30_kj7f3e.png" alt="">
+                            <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_50_rl6hhy.png" alt="">
                         </div>
                         <div class="row">
                             <button id="Sv10" type="button" class="btn">1.0 ml</button>
-                            <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_30_kj7f3e.png" alt="">
+                            <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_100_va7fof.png" alt="">
                         </div>
                     </div>
                     <div class="b234">
@@ -37,7 +37,7 @@
                                 <div class="vialrow">
                                     <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/med-flask_g60lul.png" alt="">
                                     <div class="stack">
-                                        <p>Amount of peptide in vial</p>
+                                        <p id="MP">Amount of peptide in vial</p>
                                         <div class="row">
                                                 <button id="M5" type="button" class="btn">5 mg</button>
                                                 <button id="M10" type="button" class="btn">10 mg</button>
@@ -79,7 +79,12 @@
                     </div>
 
                 </div>
-                <div class="output">
+                <div class="stackfire">
+                    <b id="message"> </b>
+                <div class="freebox">
+                    <img id="blue" src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776311652/blue_rdvirf.png" alt="">
+                    <img id="rulerImg" src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_30_kj7f3e.png" alt="ruler">
+                </div>
                 </div>
 
             </div>
@@ -97,10 +102,10 @@
                 };
 
                 const values = {
-                    Sv:"0.3",
-                    M:"5",
-                    V:"1",
-                    D:"100",
+                    Sv:0.3,
+                    M:5,
+                    V:1,
+                    D:100,
                 }
 
                 const groups = {
@@ -134,43 +139,62 @@
                     D: document.getElementById("DOtherInput"),
                 }
 
-                function render() {
-                    for (const [groupKey, buttons] of Object.entries(groups)) {
-                        for (const [value, el] of Object.entries(buttons)) {
-                            el.dataset.active = selection[groupKey] === value;
-                        }
-                    }
-                    for (const [groupKey, input] of Object.entries(otherInputs)) {
-                        input.dataset.active = selection[groupKey] === "other";
-                    }
-                }
+                const rulerImages = {
+                    "0.3": "https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_30_kj7f3e.png",
+                    "0.5": "https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_50_rl6hhy.png",
+                    "1.0": "https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_100_va7fof.png",
+                };
 
-                for (const [groupKey, buttons] of Object.entries(groups)) {
-                    for (const [value, el] of Object.entries(buttons)) {
-                        el.addEventListener("click", () => {
-                            const wasOther = selection[groupKey] === "other";
-                            selection[groupKey] = value;
-                            if (value !== "other") {
-                                values[groupKey] = parseFloat(value);
-                            } else if (!wasOther) {
-                                // Just switched TO other — prefill input with current value.
-                                otherInputs[groupKey].value = values[groupKey];
-                            }
-                            render();
-                        });
-                    }
-                }
+                const messageEl = document.getElementById("message");
+                const rulerImg  = document.getElementById("rulerImg");
 
-                for (const [groupKey, input] of Object.entries(otherInputs)) {
-                    input.addEventListener("input", () => {
-                        const n = parseFloat(input.value);
-                        if (!isNaN(n)) {
-                            values[groupKey] = n;
-                        }
-                    });
-                }
+function render() {
+  // inline computation
+  const units = (values.D / (values.M * 1000 / values.V)) * 100;
 
-                render();
+  messageEl.innerHTML =
+    units > 0 && units < values.Sv * 100 + 1
+      ? `For a dosage of <b style="color: #3b82f6;">${values.D.toFixed(2)}</b> mcg, fill the syringe until <b style="color: #3b82f6;">${units.toFixed(2)}</b>`
+      : "Insufficient volume in syringe";
+
+  for (const [groupKey, buttons] of Object.entries(groups)) {
+    for (const [value, el] of Object.entries(buttons)) {
+      el.dataset.active = selection[groupKey] === value;
+    }
+  }
+  for (const [groupKey, input] of Object.entries(otherInputs)) {
+    input.dataset.active = selection[groupKey] === "other";
+  }
+
+  rulerImg.src = rulerImages[selection.Sv];
+}
+
+for (const [groupKey, buttons] of Object.entries(groups)) {
+  for (const [value, el] of Object.entries(buttons)) {
+    el.addEventListener("click", () => {
+      const wasOther = selection[groupKey] === "other";
+      selection[groupKey] = value;
+      if (value !== "other") {
+        values[groupKey] = parseFloat(value);
+      } else if (!wasOther) {
+        otherInputs[groupKey].value = values[groupKey];
+      }
+      render();
+    });
+  }
+}
+
+for (const [groupKey, input] of Object.entries(otherInputs)) {
+  input.addEventListener("input", () => {
+    const n = parseFloat(input.value);
+    if (!isNaN(n)) {
+      values[groupKey] = n;
+      render();
+    }
+  });
+}
+
+render();
             </script>
     </body>
 
