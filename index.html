@@ -44,6 +44,7 @@
                                                 <button id="M15" type="button" class="btn">15 mg</button>
                                                 <button id="MOther" type="button" class="btn">other</button>
                                         </div>
+                                        <input type="number" id="MOtherInput" step="any">
                                     </div>
                                 </div>
                             </div>
@@ -60,6 +61,7 @@
                                             <button id="V3" type="button" class="btn">3 ml</button>
                                             <button id="VOther" type="button" class="btn">other</button>
                                         </div>
+                                        <input type="number" id="VOtherInput" step="any">
                                     </div>
                                 </div>
                             </div>
@@ -72,6 +74,7 @@
                                         <button id="D1000" type="button" class="btn">1000 mcg</button>
                                         <button id="DOther" type="button" class="btn">other</button>
                                     </div>
+                                    <input type="number" id="DOtherInput" step="any">
                         </div>
                     </div>
 
@@ -86,12 +89,19 @@
 
 
             <script>
-                const state = {
+                const selection = {
                     Sv: "0.3",
                     M: "5",
                     V: "1",
                     D: "100",
                 };
+
+                const values = {
+                    Sv:"0.3",
+                    M:"5",
+                    V:"1",
+                    D:"100",
+                }
 
                 const groups = {
                     Sv: {
@@ -119,33 +129,21 @@
                     },
                 };
 
-                const output = document.querySelector(".output");
-
-                function computeUnits() {
-                    const { Sv, M, V, D } = state;
-                    if (Sv == null || M == null || V == null || D == null) return null;
-                    if (M === "other" || V === "other" || D === "other") return null;
-                    const concentration = (Number(M) * 1000) / Number(V); // mcg per ml
-                    const ml = Number(D) / concentration;
-                    return (ml / Number(Sv)) * 100; // units on the syringe
-                }
-
                 function render() {
                     for (const [groupKey, buttons] of Object.entries(groups)) {
-                    for (const [value, el] of Object.entries(buttons)) {
-                        el.dataset.active = state[groupKey] === value;
+                        for (const [value, el] of Object.entries(buttons)) {
+                            el.dataset.active = selection[groupKey] === value;
+                        }
                     }
-                    }
-                    const units = computeUnits();
-                    output.textContent = units == null ? "" : `${units.toFixed(1)} units`;
                 }
 
                 for (const [groupKey, buttons] of Object.entries(groups)) {
                     for (const [value, el] of Object.entries(buttons)) {
-                    el.addEventListener("click", () => {
-                        state[groupKey] = value;
-                        render();
-                    });
+                        el.addEventListener("click", () => {
+                            selection[groupKey] = value;
+                            if (value !== "other") {values[groupKey] = parseFloat(value)}
+                            render();
+                        });
                     }
                 }
 
