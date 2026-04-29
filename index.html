@@ -5,51 +5,80 @@
         <meta charset="UTF-8">
         <meta name="Calctide" content="width=device-width, initial-scale=1">
         <title>Calctide</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inika&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/styles.css">
-        <style>
-            *{
-                margin: 0;
-                padding: 0;
-                box-sizing: 0;
-                font-family: 'Inika', serif;
-            }
-            body {
-                overflow-x: hidden;
-                display: grid;
-                grid-template-columns: 1fr 80% 1fr;
-            }
-            body > * {
-                grid-column: 2;
-            }
-
-            .Topbar {
-                height: 5vh;
-                display: flex;
-                flex-direction: row;
-                background-color: #009DEE;
-                position: sticky;
-                top: 0;
-                grid-column: 1 / -1;
-                z-index: 100;
-                justify-content: center;
-                align-items: center;
-            }
-
-
-
-            .Topbar img {width: 3.5vh;}
-            .Topbar p {font-size: 4vh; align-self: center ;color: aliceblue; font-style: italic;}
-
-
-        </style>
     </head>
 
     <body>
 
             <div class="Topbar">
                 <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/flask3_tz3ra0.png" alt="">
-                <p>Calctide</p>
+                <p class="title">Calctide</p>
+            </div>
+            <div class="main">
+                <div class="buttons">
+                    <div class="stack">
+                        <p>Select Syringe Volume</p>
+                        <div class="row">
+                            <button id="Sv03" type="button" class="btn">0.3 ml</button>
+                            <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_30_kj7f3e.png" alt="">
+                        </div>
+                        <div class="row">
+                            <button id="Sv05" type="button" class="btn">0.5 ml</button>
+                            <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_30_kj7f3e.png" alt="">
+                        </div>
+                        <div class="row">
+                            <button id="Sv10" type="button" class="btn">1.0 ml</button>
+                            <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304801/ruler_30_kj7f3e.png" alt="">
+                        </div>
+                    </div>
+                    <div class="b234">
+                        <div class="stack">
+                            <div class="parentrow">
+                                <div class="vialrow">
+                                    <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/med-flask_g60lul.png" alt="">
+                                    <div class="stack">
+                                        <p>Amount of peptide in vial</p>
+                                        <div class="row">
+                                                <button id="M5" type="button" class="btn">5 mg</button>
+                                                <button id="M10" type="button" class="btn">10 mg</button>
+                                                <button id="M15" type="button" class="btn">15 mg</button>
+                                                <button id="MOther" type="button" class="btn">other</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stack">
+                            <div class="parentrow">
+                                <div class="vialrow">
+                                    <img src="https://res.cloudinary.com/dkjsbd1db/image/upload/v1776304828/bac-water_gggegs.png" alt="">
+                                    <div class="stack">
+                                        <p>Amount of bacteriostatic water</p>
+                                        <div class="row">
+                                            <button id="V1" type="button" class="btn">1 ml</button>
+                                            <button id="V2" type="button" class="btn">2 ml</button>
+                                            <button id="V3" type="button" class="btn">3 ml</button>
+                                            <button id="VOther" type="button" class="btn">other</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stack">
+                            <p>Mcg dosage desired</p>
+                            <div class="row">
+                                        <button id="D100" type="button" class="btn">100 mcg</button>
+                                        <button id="D500" type="button" class="btn">500 mcg</button>
+                                        <button id="D1000" type="button" class="btn">1000 mcg</button>
+                                        <button id="DOther" type="button" class="btn">other</button>
+                                    </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="output">
+                </div>
+
             </div>
 
 
@@ -57,8 +86,70 @@
 
 
             <script>
-                // js
+                const state = {
+                    Sv: "0.3",
+                    M: "5",
+                    V: "1",
+                    D: "100",
+                };
 
+                const groups = {
+                    Sv: {
+                    "0.3": document.getElementById("Sv03"),
+                    "0.5": document.getElementById("Sv05"),
+                    "1.0": document.getElementById("Sv10"),
+                    },
+                    M: {
+                    "5":     document.getElementById("M5"),
+                    "10":    document.getElementById("M10"),
+                    "15":    document.getElementById("M15"),
+                    "other": document.getElementById("MOther"),
+                    },
+                    V: {
+                    "1":     document.getElementById("V1"),
+                    "2":     document.getElementById("V2"),
+                    "3":     document.getElementById("V3"),
+                    "other": document.getElementById("VOther"),
+                    },
+                    D: {
+                    "100":   document.getElementById("D100"),
+                    "500":   document.getElementById("D500"),
+                    "1000":  document.getElementById("D1000"),
+                    "other": document.getElementById("DOther"),
+                    },
+                };
+
+                const output = document.querySelector(".output");
+
+                function computeUnits() {
+                    const { Sv, M, V, D } = state;
+                    if (Sv == null || M == null || V == null || D == null) return null;
+                    if (M === "other" || V === "other" || D === "other") return null;
+                    const concentration = (Number(M) * 1000) / Number(V); // mcg per ml
+                    const ml = Number(D) / concentration;
+                    return (ml / Number(Sv)) * 100; // units on the syringe
+                }
+
+                function render() {
+                    for (const [groupKey, buttons] of Object.entries(groups)) {
+                    for (const [value, el] of Object.entries(buttons)) {
+                        el.dataset.active = state[groupKey] === value;
+                    }
+                    }
+                    const units = computeUnits();
+                    output.textContent = units == null ? "" : `${units.toFixed(1)} units`;
+                }
+
+                for (const [groupKey, buttons] of Object.entries(groups)) {
+                    for (const [value, el] of Object.entries(buttons)) {
+                    el.addEventListener("click", () => {
+                        state[groupKey] = value;
+                        render();
+                    });
+                    }
+                }
+
+                render();
             </script>
     </body>
 
