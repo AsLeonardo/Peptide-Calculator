@@ -103,17 +103,17 @@ const selection = {
                 }
                 render();
 
-                function sizeStackFire() {
+                function sizeFreeBox() {
                     const rulerImgEl = document.querySelector('.row img');
-                    const stackfire = document.querySelector('.stackfire');
-                    if (!rulerImgEl || !stackfire) return;
+                    const freebox = document.querySelector('.freebox');
+                    if (!rulerImgEl || !freebox) return;
                     const imgWidth = rulerImgEl.getBoundingClientRect().width;
-                    stackfire.style.width = `${imgWidth * 1.5}px`;
+                    freebox.style.width = `${imgWidth * 1.5}px`;
                 }
 
                 // layout
                 function applyLayout() {
-                    sizeStackFire();
+                    sizeFreeBox();
                     const realWidth = window.innerWidth;
                     document.querySelectorAll('.buttons').forEach(el => {
                         el.style.flexDirection = realWidth >= 982    ? 'row' : 'column';
@@ -131,5 +131,5 @@ const selection = {
 
                 applyLayout();
                 window.addEventListener('resize', applyLayout);
-                window.addEventListener('load', sizeStackFire);
-                window.addEventListener('resize', sizeStackFire);
+                window.addEventListener('load', sizeFreeBox);
+                window.addEventListener('resize', sizeFreeBox);
