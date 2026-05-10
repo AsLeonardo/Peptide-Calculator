@@ -29,4 +29,4 @@ For educational, informational, and research purposes only. Not medical advice, 
 
 ## License
 
-See [LICENSE](LICENSE).
+[MIT](LICENSE).
