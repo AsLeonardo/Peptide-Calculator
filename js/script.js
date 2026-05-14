@@ -115,17 +115,8 @@ const selection = {
                 function applyLayout() {
                     sizeFreeBox();
                     const realWidth = window.innerWidth;
-                    document.querySelectorAll('.buttons').forEach(el => {
-                        el.style.flexDirection = realWidth >= 982    ? 'row' : 'column';
-                    });
-                    document.querySelectorAll('.main').forEach(el => {
-                        el.style.margin = realWidth >= 982    ? '2rem auto' : '2rem';
-                    });
                     document.querySelectorAll('#message, .input, .btn, p:not(.title, .boiler)').forEach(el => {
-                        el.style.fontSize = realWidth >= 982    ? '20px' : '40px';
-                    });
-                    document.querySelectorAll('.boiler').forEach(el => {
-                        el.style.padding = realWidth >= 982    ? '31vh 16px 0' : '7vh 16px 0';
+                        el.style.fontSize = realWidth >= 982    ? '20px' : '20px';
                     });
                 }
 

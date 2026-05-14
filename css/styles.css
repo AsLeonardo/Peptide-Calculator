@@ -94,15 +94,38 @@ input[data-active="false"] {
     border-radius: 22px;
     border: 0.1em solid #0000002e;
     box-shadow: 0px 4px 16px 0px #00000033;
-    padding: 15px 0 0 0;
+    padding: 15px 2vh 0;
+    margin: 1rem;
 }
 
 .buttons {
     display: flex;
-    flex-direction: none;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-width: 100%;
+    width: 100%;
+}
+
+@media (min-width: 982px) {
+    .buttons{
+        flex-direction: row;
+    }
+    .main {
+        min-width: 1025px;
+        margin: 2rem auto;
+        padding: 15px 2vh 0;
+        max-width: 60vw;
+        max-height: 675px;
+    }
+    .row img {
+        min-width: 20vw;
+        width: 25vw;
+    }
+}
+
+.buttons > .stack {
+    padding: 0 4vh 0;
+
 }
 
 .stack {
@@ -111,23 +134,20 @@ input[data-active="false"] {
     align-items: flex-start;
     row-gap: 1vh;
     padding: 1vh;
+    max-width: ;
 }
 
 .buttons > .stack {
     row-gap: 1vh;
     padding: 8px;
-    width: stretch;
+    width: 100%;
 }
 
 .row {
+    min-width: 1px;
     display: flex;
     flex-direction: row;
     column-gap: 8px;
-}
-
-.buttons > .stack > .row {
-    column-gap: 0;
-    width: stretch;
     padding: 8px;
     align-items: center;
     align-self: center;
@@ -135,27 +155,20 @@ input[data-active="false"] {
     align-content: center;
 }
 
-.b234 {
-    width: stretch;
-}
-
 .b234 > .stack {
-    width: 100%;
     align-items: center;
-}
-
-.b234 > .stack > .row {
-    padding: 0 3vh;
+    max-width: 90vw;
 }
 
 .row img {
     width: 75%;
-    margin: 0 0.5em 0 1em;
+    margin: 0 8px 0 16px;
     box-shadow: 0px 4px 16px 0px #00000033;
 }
 
 .parentrow {
-    width: stretch;
+    max-width: 90%;
+    width: 100%;
     padding: 1vh 0px;
     display: flex;
     flex-direction: row;
@@ -164,7 +177,7 @@ input[data-active="false"] {
 }
 
 .parentrow img {
-    width: 11.5%;
+    width: 10%;
     max-width: 100%;
     height: 100%;
 }
@@ -172,7 +185,7 @@ input[data-active="false"] {
 .parentrow > .stack {
     display: flex;
     flex-direction: column;
-    width: stretch;
+    width: 100%;
     padding: 8px;
     align-items: center;
 }
@@ -180,7 +193,6 @@ input[data-active="false"] {
 .parentrow > .stack > .row {
     justify-content: center;
     width: 100%;
-    column-gap: 16px;
 }
 
 .parentrow > .stack > p {
@@ -201,9 +213,10 @@ input[data-active="false"] {
 
 .freebox {
     display: grid;
-    width: 95%;
-    aspect-ratio: 380/57;
-    margin: 1em;
+    height: 100%;
+    max-width: 90%;
+    /* aspect-ratio: 380/57; */
+    margin: 2em;
     box-shadow: 0px 4px 16px 0px #00000033
 }
 
